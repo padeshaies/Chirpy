@@ -15,6 +15,7 @@ import (
 type apiConfig struct {
 	fileServerHits atomic.Int32
 	dbQueries      *database.Queries
+	platform       string
 }
 
 func (cfg *apiConfig) middlewareMetricsInc(next http.Handler) http.Handler {
@@ -37,6 +38,7 @@ func main() {
 	const port = "8080"
 	apiConfig := apiConfig{
 		dbQueries: database.New(db),
+		platform:  os.Getenv("PLATFORM"),
 	}
 
 	mux := http.NewServeMux()
@@ -44,6 +46,7 @@ func main() {
 	mux.Handle("/app/", fsHandler)
 
 	mux.HandleFunc("GET /api/healthz", handleHealthz)
+	mux.HandleFunc("POST /api/users", apiConfig.handleCreateUser)
 	mux.HandleFunc("POST /api/validate_chirp", handleValidateJSon)
 
 	mux.HandleFunc("GET /admin/metrics", apiConfig.handleMetrics)
