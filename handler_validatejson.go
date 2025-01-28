@@ -7,9 +7,9 @@ import (
 )
 
 var profaneWords map[string]struct{} = map[string]struct{}{
-	"kerfuffle": struct{}{},
-	"sharbert":  struct{}{},
-	"fornax":    struct{}{},
+	"kerfuffle": {},
+	"sharbert":  {},
+	"fornax":    {},
 }
 
 func handleValidateJSon(w http.ResponseWriter, r *http.Request) {
