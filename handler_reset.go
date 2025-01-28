@@ -13,7 +13,7 @@ func (cfg *apiConfig) handlerReset(w http.ResponseWriter, r *http.Request) {
 
 	cfg.fileServerHits.Store(0)
 
-	_, err := cfg.dbQueries.DeleteUsers(r.Context())
+	err := cfg.dbQueries.Reset(r.Context())
 	if err != nil {
 		w.WriteHeader(http.StatusInternalServerError)
 		w.Write([]byte("Error deleting users"))
